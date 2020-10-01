@@ -1,8 +1,8 @@
-#include "GraphicsApp.h"
+#include "Game.h"
 
 int main()
 {
-	GraphicsApp* app = new GraphicsApp(1280, 720, "Computer Graphics");
+	Game* app = new Game(1280, 720, "Computer Graphics");
 
 	app->run();
 

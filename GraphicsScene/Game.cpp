@@ -1,7 +1,8 @@
-#include "GraphicsApp.h"
+#include "Game.h"
+#include "Camera.h"
 #include <cstdio>
 
-GraphicsApp::GraphicsApp()
+Game::Game()
 {
 	m_width = 1280;
 	m_height = 720;
@@ -9,18 +10,18 @@ GraphicsApp::GraphicsApp()
 
 }
 
-GraphicsApp::GraphicsApp(int width, int height, const char* title)
+Game::Game(int width, int height, const char* title)
 {
 	m_width = width;
 	m_height = height;
 	m_title = title;
 }
 
-GraphicsApp::~GraphicsApp()
+Game::~Game()
 {
 }
 
-int GraphicsApp::run()
+int Game::run()
 {
 	bool updating = true;
 	bool drawing = true;
@@ -56,7 +57,7 @@ int GraphicsApp::run()
 	return 0;
 }
 
-bool GraphicsApp::start()
+bool Game::start()
 {
 	using glm::vec3;
 	using glm::vec4;
@@ -100,8 +101,10 @@ bool GraphicsApp::start()
 	aie::Gizmos::create(10000, 10000, 10000, 10000);
 
 	//Set up camera
-	m_view = glm::lookAt(vec3(10, 10, 10), vec3(0, 0, 0), vec3(0, 1, 0));
-	m_projection = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
+	m_camera = new Camera(this);
+	m_camera->setPosition({ 10, 10, 10 });
+	m_camera->setYaw(-135.0);
+	m_camera->setPitch(-35.0f);
 
 	//Set the clear color
 	glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
@@ -110,7 +113,7 @@ bool GraphicsApp::start()
 	glEnable(GL_DEPTH_TEST);
 }
 
-bool GraphicsApp::update(double deltaTime)
+bool Game::update(double deltaTime)
 {
 	glfwPollEvents();
 
@@ -120,10 +123,12 @@ bool GraphicsApp::update(double deltaTime)
 		return false;
 	}
 
+	m_camera->update(deltaTime);
+
 	return true;
 }
 
-bool GraphicsApp::draw()
+bool Game::draw()
 {
 	using glm::vec3;
 	using glm::vec4;
@@ -151,14 +156,14 @@ bool GraphicsApp::draw()
 			i == 10 ? white : grey);
 	}
 
-	aie::Gizmos::draw(m_projection * m_view);
+	aie::Gizmos::draw(m_camera->getProjectionMatrix(m_width, m_height) * m_camera->getViewMatrix());
 
 	glfwSwapBuffers(m_window);
 
 	return true;
 }
 
-bool GraphicsApp::end()
+bool Game::end()
 {
 	//Destroy Gizmos
 	aie::Gizmos::destroy();
