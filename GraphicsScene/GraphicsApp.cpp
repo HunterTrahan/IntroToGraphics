@@ -146,7 +146,7 @@ bool GraphicsApp::draw()
 			vec3(-10 + i, 0, -10),
 			i == 10 ? white : grey);
 
-		aie::Gizmos::addLine(vec3(10, 0, -10 + 1),
+		aie::Gizmos::addLine(vec3(10, 0, -10 + i),
 			vec3(-10, 0, -10 + i),
 			i == 10 ? white : grey);
 	}
