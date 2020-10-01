@@ -25,6 +25,9 @@ int GraphicsApp::run()
 	bool updating = true;
 	bool drawing = true;
 
+	double deltaTime = 0.0f;
+	double timeOfPreviousUpdate = 0.0f;
+
 	if (!start())
 	{
 		return -1;
@@ -32,7 +35,16 @@ int GraphicsApp::run()
 
 	while (updating && drawing)
 	{
-		updating = update();
+		//Get the current time
+		double timeOfCurrentUpadte = glfwGetTime();
+
+		//Find the change in time
+		deltaTime = timeOfCurrentUpadte - timeOfPreviousUpdate;
+
+		//STore the current time for the next loop
+		timeOfPreviousUpdate = timeOfCurrentUpadte;
+
+		updating = update(deltaTime);
 		drawing = draw();
 	}
 
@@ -89,7 +101,7 @@ bool GraphicsApp::start()
 
 	//Set up camera
 	m_view = glm::lookAt(vec3(10, 10, 10), vec3(0, 0, 0), vec3(0, 1, 0));
-	m_projection = glm::perspective(glm::pi<float>() * 0.25f, 16 / 9.f, 0.1f, 1000.0f);
+	m_projection = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 
 	//Set the clear color
 	glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
@@ -98,7 +110,7 @@ bool GraphicsApp::start()
 	glEnable(GL_DEPTH_TEST);
 }
 
-bool GraphicsApp::update()
+bool GraphicsApp::update(double deltaTime)
 {
 	glfwPollEvents();
 
@@ -123,20 +135,20 @@ bool GraphicsApp::draw()
 	//Clear the Gizmos
 	aie::Gizmos::clear();
 
-	aie::Gizmos::addTransform(mat4(1));
+	aie::Gizmos::addTransform(mat4(1), 2.0f);
 
-	vec4 white(1);
-	vec4 black(0, 0, 0, 1);
+	vec4 white(1, 1, 1, 1);
+	vec4 grey(0.5f, 0.5f, 0.5f, 1);
 
 	for (int i = 0; i < 21; ++i)
 	{
 		aie::Gizmos::addLine(vec3(-10 + i, 0, 10),
 			vec3(-10 + i, 0, -10),
-			i == 10 ? white : black);
+			i == 10 ? white : grey);
 
 		aie::Gizmos::addLine(vec3(10, 0, -10 + 1),
 			vec3(-10, 0, -10 + i),
-			i == 10 ? white : black);
+			i == 10 ? white : grey);
 	}
 
 	aie::Gizmos::draw(m_projection * m_view);

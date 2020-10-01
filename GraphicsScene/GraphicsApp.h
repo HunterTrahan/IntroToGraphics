@@ -14,7 +14,7 @@ class GraphicsApp
 		int run();
 
 		bool start();
-		bool update();
+		bool update(double deltatime);
 		bool draw();
 		bool end();
 
