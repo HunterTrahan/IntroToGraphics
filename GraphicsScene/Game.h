@@ -22,6 +22,9 @@ class Game
 		bool end();
 
 		GLFWwindow* getWindow() { return m_window; }
+		int getWidth() { return m_width; }
+		int getHeight() { return m_height; }
+		const char* getTitle() { return m_title; }
 
 	protected:
 		GLFWwindow* m_window;
