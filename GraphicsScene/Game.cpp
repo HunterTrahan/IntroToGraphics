@@ -111,6 +111,10 @@ bool Game::start()
 
 	//Enables the depth buffer
 	glEnable(GL_DEPTH_TEST);
+
+	m_ball = new Ball({ 0.8f, 0.1f, 0.1f, 1.0f }, 5.0f);
+
+	return true;
 }
 
 bool Game::update(double deltaTime)
@@ -156,6 +160,9 @@ bool Game::draw()
 			i == 10 ? white : grey);
 	}
 
+	//Draw ball
+	m_ball->draw();
+
 	aie::Gizmos::draw(m_camera->getProjectionMatrix(m_width, m_height) * m_camera->getViewMatrix());
 
 	glfwSwapBuffers(m_window);
@@ -165,6 +172,9 @@ bool Game::draw()
 
 bool Game::end()
 {
+	//Delete the ball
+	delete m_ball;
+
 	//Destroy Gizmos
 	aie::Gizmos::destroy();
 
