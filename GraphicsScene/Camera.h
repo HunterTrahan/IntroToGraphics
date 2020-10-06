@@ -28,7 +28,7 @@ class Camera : public Actor
 		float m_pitch = 0.0f; //phi
 		glm::vec3 m_position{ 0.0f, 0.0f, 0.0f};
 
-		float m_moveSpeed = 1.0f;
+		float m_moveSpeed = 5.0f;
 		float m_turnSpeed = 0.2f;
 
 		double m_currentMouseX = 0.0;

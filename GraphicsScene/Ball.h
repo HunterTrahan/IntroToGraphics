@@ -12,7 +12,6 @@ class Ball : public Actor
 		bool draw() override;
 
 	protected:
-		glm::vec3 m_position{ 0.0f, 0.0f, 0.0f };
 		glm::vec4 m_color;
 		float m_radius;
 };

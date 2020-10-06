@@ -64,34 +64,34 @@ bool Camera::update(double deltatime)
 	if (glfwGetKey(m_instance->getWindow(), keyForawrd))
 	{
 		//Move forward
-		m_position += forward * (float)deltatime;
+		m_position += forward * m_moveSpeed * (float)deltatime;
 	}
 	if (glfwGetKey(m_instance->getWindow(), keyBack))
 	{
 		//Move backwards
-		m_position -= forward * (float)deltatime;
+		m_position -= forward * m_moveSpeed * (float)deltatime;
 	}
 
 	if (glfwGetKey(m_instance->getWindow(), keyLeft))
 	{
 		//Move left
-		m_position -= right * (float)deltatime;
+		m_position -= right * m_moveSpeed * (float)deltatime;
 	}
 	if (glfwGetKey(m_instance->getWindow(), keyRight))
 	{
 		//Move right
-		m_position += right * (float)deltatime;
+		m_position += right * m_moveSpeed * (float)deltatime;
 	}
 
 	if (glfwGetKey(m_instance->getWindow(), keyUp))
 	{
 		//Move up
-		m_position += up * (float)deltatime;
+		m_position += up * m_moveSpeed * (float)deltatime;
 	}
 	if (glfwGetKey(m_instance->getWindow(), keyDown))
 	{
 		//Move forward
-		m_position -= up * (float)deltatime;
+		m_position -= up * m_moveSpeed * (float)deltatime;
 	}
 
 	//Get current mouse coordinates

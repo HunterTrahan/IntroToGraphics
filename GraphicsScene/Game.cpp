@@ -112,7 +112,22 @@ bool Game::start()
 	//Enables the depth buffer
 	glEnable(GL_DEPTH_TEST);
 
-	m_ball = new Ball({ 0.8f, 0.1f, 0.1f, 1.0f }, 5.0f);
+	//Create a ball
+	m_ball = new Ball({ 0.8f, 0.1f, 0.1f, 1.0f }, 2.0f);
+
+	//Create a placeholder a starting position and rotation
+	m_startActor = new Actor();
+	m_startActor->setPosition({ 10.0f, 5.0f, 10.0f });
+	m_startActor->setRotation(glm::vec3(0.0f, -1.0f, 1.0f));
+
+	//Create a placeholder a ending position and rotation
+	m_endActor = new Actor();
+	m_endActor->setPosition({ -10.0f, 0.0f, -10.0f });
+	m_endActor->setRotation(glm::vec3(0.0f, 1.0f, -1.0f));
+
+	//Set the balls position and rotation to the start
+	m_ball->setPosition(m_startActor->getPosition());
+	m_ball->setRotation(m_startActor->getRotation());
 
 	return true;
 }
@@ -128,6 +143,23 @@ bool Game::update(double deltaTime)
 	}
 
 	m_camera->update(deltaTime);
+
+	//Find a time-based value in the range of [0, 1]
+	float s = glm::cos(glfwGetTime()) * 0.5f + 0.5f;
+
+	//Standard linear interpolation
+	glm::vec3 startPosition = m_startActor->getPosition();
+	glm::vec3 endPosition = m_endActor->getPosition();
+	glm::vec3 p = (1.0f - s) * startPosition + s * endPosition;
+
+	//Quaternion slerp
+	glm::quat startRotation = m_startActor->getRotation();
+	glm::quat endtRotation = m_endActor->getRotation();
+	glm::quat r = glm::slerp(startRotation, endtRotation, s);
+
+	//Update position and rotation of the ball
+	m_ball->setPosition(p);
+	m_ball->setRotation(r);
 
 	return true;
 }
