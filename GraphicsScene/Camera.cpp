@@ -1,5 +1,4 @@
 #include "Camera.h"
-#include "Game.h"
 
 glm::mat4 Camera::getViewMatrix()
 {

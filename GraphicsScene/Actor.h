@@ -9,6 +9,7 @@ class Actor
 {
 	public:
 		Actor() {};
+		Actor(glm::vec3 position, glm::quat rotation);
 		~Actor() {};
 
 		virtual bool update(double deltatime) { return true; };
@@ -18,6 +19,7 @@ class Actor
 		void setPosition(glm::vec3 position) { m_position = position; }
 		glm::quat getRotation() { return m_rotation; }
 		void setRotation(glm::quat rotation) { m_rotation = rotation; }
+		glm::mat4 getTransform();
 
 	protected:
 		glm::vec3 m_position{ 0.0f, 0.0f, 0.0f };

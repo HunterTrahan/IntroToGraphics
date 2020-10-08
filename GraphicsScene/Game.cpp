@@ -66,7 +66,7 @@ bool Game::start()
 	//Initialize GLFW
 	if (!glfwInit())
 	{
-		return -1;
+		return false;
 	}
 
 	//Create window
@@ -77,7 +77,7 @@ bool Game::start()
 	{
 		glfwTerminate();
 
-		return -2;
+		return false;
 	}
 
 	//Set the window as the target
@@ -89,7 +89,7 @@ bool Game::start()
 		glfwDestroyWindow(m_window);
 		glfwTerminate();
 
-		return -3;
+		return false;
 	}
 
 	//Print the OpenGL version number
@@ -112,22 +112,27 @@ bool Game::start()
 	//Enables the depth buffer
 	glEnable(GL_DEPTH_TEST);
 
-	//Create a ball
-	m_ball = new Ball({ 0.8f, 0.1f, 0.1f, 1.0f }, 2.0f);
+	//Create a placeholder for a starting position and rotation
+	m_startActor = new Actor({ 10.0f, 5.0f, 10.0f }, glm::vec3(0.0f, -1.0f, 1.0f));
+	//Create a placeholder for an ending position and rotation
+	m_endActor = new Actor({ -10.0f, 0.0f, -10.0f }, glm::vec3(0.0f, 1.0f, -1.0f));
 
-	//Create a placeholder a starting position and rotation
-	m_startActor = new Actor();
-	m_startActor->setPosition({ 10.0f, 5.0f, 10.0f });
-	m_startActor->setRotation(glm::vec3(0.0f, -1.0f, 1.0f));
+	//Create a bone
+	m_bone = new Bone({
+		{ 10.0f, 5.0f, 10.0f }, glm::vec3(0.0f, -1.0f, 1.0f) },
+		{ { -10.0f, 0.0f, -10.0f }, glm::vec3(0.0f, 1.0f, -1.0f) }
+	);
 
-	//Create a placeholder a ending position and rotation
-	m_endActor = new Actor();
-	m_endActor->setPosition({ -10.0f, 0.0f, -10.0f });
-	m_endActor->setRotation(glm::vec3(0.0f, 1.0f, -1.0f));
+	m_bone2 = new Bone({
+		{ 1.0f, 5.0f, 1.0f }, glm::vec3(0.0f, -1.0f, 1.0f) },
+		{ { -1.0f, 0.0f, -1.0f }, glm::vec3(0.0f, 1.0f, -1.0f) }
+	);
 
-	//Set the balls position and rotation to the start
-	m_ball->setPosition(m_startActor->getPosition());
-	m_ball->setRotation(m_startActor->getRotation());
+	//Create a skeleton
+	m_skeleton = new Skeleton();
+	//Add the bone to the skeleton
+	m_skeleton->addBone(m_bone);
+	m_skeleton->addBone(m_bone2);
 
 	return true;
 }
@@ -144,22 +149,7 @@ bool Game::update(double deltaTime)
 
 	m_camera->update(deltaTime);
 
-	//Find a time-based value in the range of [0, 1]
-	float s = glm::cos(glfwGetTime()) * 0.5f + 0.5f;
-
-	//Standard linear interpolation
-	glm::vec3 startPosition = m_startActor->getPosition();
-	glm::vec3 endPosition = m_endActor->getPosition();
-	glm::vec3 p = (1.0f - s) * startPosition + s * endPosition;
-
-	//Quaternion slerp
-	glm::quat startRotation = m_startActor->getRotation();
-	glm::quat endtRotation = m_endActor->getRotation();
-	glm::quat r = glm::slerp(startRotation, endtRotation, s);
-
-	//Update position and rotation of the ball
-	m_ball->setPosition(p);
-	m_ball->setRotation(r);
+	m_skeleton->update(deltaTime);
 
 	return true;
 }
@@ -192,8 +182,7 @@ bool Game::draw()
 			i == 10 ? white : grey);
 	}
 
-	//Draw ball
-	m_ball->draw();
+	m_skeleton->draw();
 
 	aie::Gizmos::draw(m_camera->getProjectionMatrix(m_width, m_height) * m_camera->getViewMatrix());
 
@@ -204,8 +193,10 @@ bool Game::draw()
 
 bool Game::end()
 {
-	//Delete the ball
-	delete m_ball;
+	delete m_startActor;
+	delete m_endActor;
+	delete m_bone;
+	delete m_skeleton;
 
 	//Destroy Gizmos
 	aie::Gizmos::destroy();
