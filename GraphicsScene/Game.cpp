@@ -118,21 +118,27 @@ bool Game::start()
 	m_endActor = new Actor({ -10.0f, 0.0f, -10.0f }, glm::vec3(0.0f, 1.0f, -1.0f));
 
 	//Create a bone
-	m_bone = new Bone({
-		{ 10.0f, 5.0f, 10.0f }, glm::vec3(0.0f, -1.0f, 1.0f) },
-		{ { -10.0f, 0.0f, -10.0f }, glm::vec3(0.0f, 1.0f, -1.0f) }
+	m_hipBone = new Bone({
+		{ 0.0f, 5.0f, 0.0f }, glm::vec3(1.0f, 0.0f, 0.0f) },
+		{ { 0.0f, 5.0f, 0.0f }, glm::vec3(-1.0f, 0.0f, 0.0f) }
 	);
 
-	m_bone2 = new Bone({
-		{ 1.0f, 5.0f, 1.0f }, glm::vec3(0.0f, -1.0f, 1.0f) },
-		{ { -1.0f, 0.0f, -1.0f }, glm::vec3(0.0f, 1.0f, -1.0f) }
+	m_kneeBone = new Bone({
+		{ 0.0f, -2.5f, 0.0f }, glm::vec3(1.0f, 0.0f, 1.0f) },
+		{ { 0.0f, -2.5f, 0.0f }, glm::vec3(0.0f, 0.0f, 0.0f) }
+	);
+
+	m_ankleBone = new Bone({
+	{ 0.0f, -2.5f, 0.0f }, glm::vec3(1.0f, 0.0f, 1.0f) },
+		{ { 0.0f, -2.5f, 0.0f }, glm::vec3(0.0f, 0.0f, 0.0f) }
 	);
 
 	//Create a skeleton
 	m_skeleton = new Skeleton();
 	//Add the bone to the skeleton
-	m_skeleton->addBone(m_bone);
-	m_skeleton->addBone(m_bone2);
+	m_skeleton->addBone(m_hipBone);
+	m_skeleton->addBone(m_kneeBone);
+	m_skeleton->addBone(m_ankleBone);
 
 	return true;
 }
@@ -195,7 +201,9 @@ bool Game::end()
 {
 	delete m_startActor;
 	delete m_endActor;
-	delete m_bone;
+	delete m_hipBone;
+	delete m_kneeBone;
+	delete m_ankleBone;
 	delete m_skeleton;
 
 	//Destroy Gizmos

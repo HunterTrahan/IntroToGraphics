@@ -21,6 +21,26 @@ glm::mat4 Camera::getProjectionMatrix(float width, float height)
 						    0.1f, 1000.0f);
 }
 
+float Camera::getYaw()
+{
+	return m_yaw;
+}
+
+void Camera::setYaw(float degrees)
+{
+	m_yaw = degrees;
+}
+
+float Camera::getPitch()
+{
+	return m_pitch;
+}
+
+void Camera::setPitch(float degrees)
+{
+	m_pitch = degrees;
+}
+
 bool Camera::update(double deltatime)
 {
 	int keyForawrd = GLFW_KEY_W;

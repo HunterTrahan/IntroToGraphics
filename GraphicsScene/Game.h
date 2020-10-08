@@ -36,7 +36,8 @@ class Game
 		Actor* m_startActor;
 		Actor* m_endActor;
 		Bone* m_hipBone;
-		Bone* m_kneeBone2;
+		Bone* m_kneeBone;
+		Bone* m_ankleBone;
 		Skeleton* m_skeleton;
 
 	private:
