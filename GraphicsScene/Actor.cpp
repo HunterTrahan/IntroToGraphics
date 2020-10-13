@@ -8,6 +8,11 @@ Actor::Actor(glm::vec3 position, glm::quat rotation)
 
 glm::mat4 Actor::getTransform()
 {
+    if (m_parent) 
+    {
+        return m_parent->getTransform() * glm::translate(m_position) * glm::toMat4(m_rotation);
+    }
+
     return glm::translate(m_position) * glm::toMat4(m_rotation);
 }
 

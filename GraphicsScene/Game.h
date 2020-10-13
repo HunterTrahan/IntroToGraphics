@@ -4,6 +4,8 @@
 #include <Gizmos.h>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+#include "Shader.h"
+#include "Mesh.h"
 #include "Ball.h"
 #include "Bone.h"
 #include "Skeleton.h"
@@ -32,9 +34,12 @@ class Game
 	protected:
 		GLFWwindow* m_window;
 		Camera* m_camera;
+
+		aie::ShaderProgram		m_shader;
+		Mesh					m_quadMesh;
+		glm::mat4				m_quadTransform;
+
 		Ball* m_ball;
-		Actor* m_startActor;
-		Actor* m_endActor;
 		Bone* m_hipBone;
 		Bone* m_kneeBone;
 		Bone* m_ankleBone;
