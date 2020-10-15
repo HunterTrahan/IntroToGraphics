@@ -99,11 +99,15 @@ bool Game::start()
 		aie::eShaderStage::FRAGMENT,
 		"simple.frag"
 	);
-	if (!m_shader.link()) {
-		printf(
-			"Shader Error: %s\n",
-			m_shader.getLastError()
-		);
+	if (!m_shader.link()) 
+	{
+		printf("Shader Error: %s\n", m_shader.getLastError());		
+		return false;
+	}
+
+	if (!m_texture.load("earth_diffuse.jpg"))
+	{
+		printf("Failed to load texture.\n");
 		return false;
 	}
 
@@ -116,11 +120,11 @@ bool Game::start()
 	m_camera->setYaw(-135.0f);
 	m_camera->setPitch(-45.0f);
 
-	//Initialize the quad
-	m_quadMesh.initializeQuad();
+	//Initialize the cube
+	m_mesh.initializeCube();
 
 	//Set up the quad transform
-	m_quadTransform = {
+	m_meshTransform = {
 		10, 0, 0, 0,
 		0, 10, 0, 0,
 		0, 0, 10, 0,
@@ -205,14 +209,18 @@ bool Game::draw()
 	m_shader.bind();
 
 	//Bind transform
-	mat4 pvm = projectionMatrix * viewMatrix * m_quadTransform;
+	mat4 pvm = projectionMatrix * viewMatrix * m_meshTransform; //m_meshTransform
 	m_shader.bindUniform("ProjectionViewModel", pvm);
+
+	//Bind texture
+	m_shader.bindUniform("diffuseTexture", 0);
+	m_texture.bind(0);
 
 	//Bind time
 	m_shader.bindUniform("timePassed", (float)glfwGetTime());
 
 	//Draw quad
-	m_quadMesh.draw();
+	m_mesh.draw();
 
 	//m_skeleton->draw();
 
