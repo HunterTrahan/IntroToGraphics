@@ -57,8 +57,7 @@ bool Game::start()
 	using glm::mat4;
 
 	//Initialize GLFW
-	if (!glfwInit()) 
-	{
+	if (!glfwInit()) {
 		return false;
 	}
 
@@ -66,8 +65,7 @@ bool Game::start()
 	m_window = glfwCreateWindow(m_width, m_height, m_title, nullptr, nullptr);
 
 	//Ensure the window was created
-	if (!m_window) 
-	{
+	if (!m_window) {
 		glfwTerminate();
 		return false;
 	}
@@ -76,8 +74,7 @@ bool Game::start()
 	glfwMakeContextCurrent(m_window);
 
 	//Load OpenGL functions
-	if (ogl_LoadFunctions() == ogl_LOAD_FAILED) 
-	{
+	if (ogl_LoadFunctions() == ogl_LOAD_FAILED) {
 		glfwDestroyWindow(m_window);
 		glfwTerminate();
 		return false;
@@ -87,6 +84,28 @@ bool Game::start()
 	int major = ogl_GetMajorVersion();
 	int minor = ogl_GetMinorVersion();
 	printf("OpenGL version: %i.%i\n", major, minor);
+
+	//Set the clear color
+	glClearColor(0.05f, 0.05f, 0.025f, 1.0f);
+	//Enable OpenGL depth test
+	glEnable(GL_DEPTH_TEST);
+
+	//Initialize shader
+	m_shader.loadShader(
+		aie::eShaderStage::VERTEX,
+		"simple.vert"
+	);
+	m_shader.loadShader(
+		aie::eShaderStage::FRAGMENT,
+		"simple.frag"
+	);
+	if (!m_shader.link()) {
+		printf(
+			"Shader Error: %s\n",
+			m_shader.getLastError()
+		);
+		return false;
+	}
 
 	//Initialize Gizmos
 	aie::Gizmos::create(10000, 10000, 10000, 10000);
@@ -101,39 +120,22 @@ bool Game::start()
 	m_quadMesh.initializeQuad();
 
 	//Set up the quad transform
-	m_quadTransform = { 10, 0, 0, 0,
-						0, 10, 0, 0,
-						0, 0, 10, 0,
-						0, 0, 0, 1
+	m_quadTransform = {
+		10, 0, 0, 0,
+		0, 10, 0, 0,
+		0, 0, 10, 0,
+		0, 0, 0, 1
 	};
-
-	//Set the clear color
-	glClearColor(0.05f, 0.05f, 0.025f, 1.0f);
-	//Enable OpenGL depth test
-	glEnable(GL_DEPTH_TEST);
-
-	//Initialize shader
-	m_shader.loadShader(aie::eShaderStage::VERTEX, "simple.vert");
-	m_shader.loadShader(aie::eShaderStage::FRAGMENT, "simple.frag");
-
-	if (!m_shader.link())
-	{
-		printf("Shader Error: %s\n", m_shader.getLastError());
-
-		return false;
-	}
 
 	//Create bones
 	m_hipBone = new Bone({
 		{ 0.0f, 5.0f, 0.0f }, glm::vec3(1.0f, 0.0f, 0.0f) },
 		{ { 0.0f, 5.0f, 0.0f }, glm::vec3(-1.0f, 0.0f, 0.0f) }
 	);
-
 	m_kneeBone = new Bone({
 		{ 0.0f, -2.5f, 0.0f }, glm::vec3(1.0f, 0.0f, 0.0f) },
 		{ { 0.0f, -2.5f, 0.0f }, glm::vec3(0.0f, 0.0f, 0.0f) }
 	);
-
 	m_ankleBone = new Bone({
 		{ 0.0f, -2.5f, 0.0f }, glm::vec3(-1.0f, 0.0f, 0.0f) },
 		{ { 0.0f, -2.5f, 0.0f }, glm::vec3(0.0f, 0.0f, 0.0f) }
@@ -212,7 +214,7 @@ bool Game::draw()
 	//Draw quad
 	m_quadMesh.draw();
 
-	m_skeleton->draw();
+	//m_skeleton->draw();
 
 	aie::Gizmos::draw(projectionMatrix * viewMatrix);
 
