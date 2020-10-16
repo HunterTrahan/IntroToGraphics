@@ -5,11 +5,13 @@
 #include <glm/ext.hpp>
 #include <Gizmos.h>
 #include <Texture.h>
+#include "OBJMesh.h"
 #include "Shader.h"
 #include "Mesh.h"
 #include "Ball.h"
 #include "Bone.h"
 #include "Skeleton.h"
+#include "Earth.h"
 
 class Camera;
 
@@ -23,7 +25,7 @@ class Game
 		int run();
 
 		bool start();
-		bool update(double deltatime);
+		bool update(double deltaTime);
 		bool draw();
 		bool end();
 
@@ -37,20 +39,23 @@ class Game
 		Camera* m_camera;
 
 
-		aie::ShaderProgram		m_shader;
-		Mesh					m_mesh;
-		glm::mat4				m_meshTransform;
-		aie::Texture			m_texture;
+		aie::ShaderProgram	m_shader;
 
-		Ball* m_ball;
+		aie::OBJMesh		m_objMesh;
+		aie::Texture		m_objTexture;
+		glm::mat4			m_meshTransform;
+
+		Earth* m_earth;
+
+		Mesh				m_mesh;
+		aie::Texture		m_texture;
+
 		Bone* m_hipBone;
 		Bone* m_kneeBone;
 		Bone* m_ankleBone;
 		Skeleton* m_skeleton;
 
 	private:
-		int m_width;
-		int m_height;
+		int m_width, m_height;
 		const char* m_title;
-		
 };

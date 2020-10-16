@@ -31,8 +31,7 @@ int Game::run()
 	if (!start())
 		return -1;
 
-	while (updating && drawing) 
-	{
+	while (updating && drawing) {
 		//Get the current time
 		double timeOfCurrentUpdate = glfwGetTime();
 		//Find the change in time
@@ -95,19 +94,25 @@ bool Game::start()
 		aie::eShaderStage::VERTEX,
 		"simple.vert"
 	);
+
 	m_shader.loadShader(
 		aie::eShaderStage::FRAGMENT,
 		"simple.frag"
 	);
+
 	if (!m_shader.link()) 
 	{
-		printf("Shader Error: %s\n", m_shader.getLastError());		
+		printf(
+			"Shader Error: %s\n",
+			m_shader.getLastError()
+		);
 		return false;
 	}
 
-	if (!m_texture.load("earth_diffuse.jpg"))
+	//Load soulspear mesh
+	if (!m_objMesh.load("soulspear.obj")) 
 	{
-		printf("Failed to load texture.\n");
+		printf("Failed to load soulspear.obj.\n");
 		return false;
 	}
 
@@ -120,28 +125,32 @@ bool Game::start()
 	m_camera->setYaw(-135.0f);
 	m_camera->setPitch(-45.0f);
 
-	//Initialize the cube
-	m_mesh.initializeCube();
+	m_earth = new Earth(
+		{ 10.0f, 0.0f, 0.0f },
+		glm::vec3(1.0f, 0.0f, 0.0f),
+		{ 2.0f, 2.0f, 2.0f }
+	);
+	m_earth->start();
 
-	//Set up the quad transform
+	//Set up the identity transform
 	m_meshTransform = {
-		10, 0, 0, 0,
-		0, 10, 0, 0,
-		0, 0, 10, 0,
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
 		0, 0, 0, 1
 	};
 
 	//Create bones
-	m_hipBone = new Bone({
-		{ 0.0f, 5.0f, 0.0f }, glm::vec3(1.0f, 0.0f, 0.0f) },
+	m_hipBone = new Bone(
+		{ { 0.0f, 5.0f, 0.0f }, glm::vec3(1.0f, 0.0f, 0.0f) },
 		{ { 0.0f, 5.0f, 0.0f }, glm::vec3(-1.0f, 0.0f, 0.0f) }
 	);
-	m_kneeBone = new Bone({
-		{ 0.0f, -2.5f, 0.0f }, glm::vec3(1.0f, 0.0f, 0.0f) },
+	m_kneeBone = new Bone(
+		{ { 0.0f, -2.5f, 0.0f }, glm::vec3(1.0f, 0.0f, 0.0f) },
 		{ { 0.0f, -2.5f, 0.0f }, glm::vec3(0.0f, 0.0f, 0.0f) }
 	);
-	m_ankleBone = new Bone({
-		{ 0.0f, -2.5f, 0.0f }, glm::vec3(-1.0f, 0.0f, 0.0f) },
+	m_ankleBone = new Bone(
+		{ { 0.0f, -2.5f, 0.0f }, glm::vec3(-1.0f, 0.0f, 0.0f) },
 		{ { 0.0f, -2.5f, 0.0f }, glm::vec3(0.0f, 0.0f, 0.0f) }
 	);
 	m_kneeBone->setParent(m_hipBone);
@@ -189,8 +198,7 @@ bool Game::draw()
 	vec4 white(1, 1, 1, 1);
 	vec4 grey(0.5f, 0.5f, 0.5f, 1);
 
-	for (int i = 0; i < 21; ++i) 
-	{
+	for (int i = 0; i < 21; ++i) {
 		aie::Gizmos::addLine(
 			vec3(-10 + i, 0, 10),
 			vec3(-10 + i, 0, -10),
@@ -208,21 +216,19 @@ bool Game::draw()
 	//Bind shader
 	m_shader.bind();
 
-	//Bind transform
-	mat4 pvm = projectionMatrix * viewMatrix * m_meshTransform; //m_meshTransform
+	//Bind and draw Earth
+	mat4 pvm = projectionMatrix * viewMatrix * m_earth->getTransform();
 	m_shader.bindUniform("ProjectionViewModel", pvm);
-
-	//Bind texture
 	m_shader.bindUniform("diffuseTexture", 0);
-	m_texture.bind(0);
+	m_earth->draw();
 
-	//Bind time
-	m_shader.bindUniform("timePassed", (float)glfwGetTime());
+	//Draw obj mesh
+	pvm = projectionMatrix * viewMatrix * m_meshTransform;
+	m_shader.bindUniform("ProjectionViewModel", pvm);
+	m_shader.bindUniform("diffuseTexture", 0);
+	m_objMesh.draw();
 
-	//Draw quad
-	m_mesh.draw();
-
-	//m_skeleton->draw();
+	m_skeleton->draw();
 
 	aie::Gizmos::draw(projectionMatrix * viewMatrix);
 
