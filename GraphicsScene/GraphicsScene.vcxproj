@@ -168,6 +168,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Earth.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="OBJMesh.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Earth.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="OBJMesh.h" />
     <ClInclude Include="Shader.h" />
@@ -191,6 +193,8 @@
     <None Include="..\..\..\..\..\Downloads\stanford\Lucy.mtl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="phong.frag" />
+    <None Include="phong.vert" />
     <None Include="simple.frag" />
     <None Include="simple.vert" />
     <None Include="soulspear.mtl">

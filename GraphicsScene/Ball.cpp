@@ -18,13 +18,10 @@ bool Ball::draw()
 {
 	//Build a transform matrix
 	glm::mat4 transform = getTransform();
-
 	//Draw the transform
 	aie::Gizmos::addTransform(transform, m_radius * 2.0f);
-
 	//Draw the ball
-	//aie::Gizmos::addSphere(m_position, m_radius, 16, 16, m_color);
-	aie::Gizmos::addSphere(glm::vec3(0.0f), m_radius, 6.0f * m_radius, 6.0f * m_radius, m_color, &transform);
+	aie::Gizmos::addSphere(glm::vec3(0.0f), m_radius, 6 * m_radius, 6 * m_radius, m_color, &transform);
 
 	return true;
 }

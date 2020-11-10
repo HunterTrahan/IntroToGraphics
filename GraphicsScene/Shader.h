@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include <glm/vec2.hpp>
@@ -8,11 +9,10 @@
 #include <glm/mat4x4.hpp>
 #include <memory>
 
-namespace aie 
-{
+namespace aie {
+
 	// simplified render pipeline shader stages
-	enum eShaderStage : unsigned int 
-	{
+	enum eShaderStage : unsigned int {
 		UNDEFINED = 0,
 
 		VERTEX,
@@ -25,14 +25,12 @@ namespace aie
 	};
 
 	// individual sharable shader stages
-	class Shader 
-	{
-		public:
+	class Shader {
+	public:
 
 		Shader() : m_stage(0), m_handle(0), m_lastError(nullptr) {}
 		Shader(unsigned int stage, const char* filename)
-			: m_stage(0), m_handle(0), m_lastError(nullptr) 
-		{
+			: m_stage(0), m_handle(0), m_lastError(nullptr) {
 			loadShader(stage, filename);
 		}
 		~Shader();
@@ -45,20 +43,18 @@ namespace aie
 
 		const char* getLastError() const { return m_lastError; }
 
-		protected:
+	protected:
 
 		unsigned int	m_stage;
 		unsigned int	m_handle;
-		char*			m_lastError;
+		char* m_lastError;
 	};
 
 	// combines shaders together into a single program for the GPU
-	class ShaderProgram 
-	{
-		public:
+	class ShaderProgram {
+	public:
 
-		ShaderProgram() : m_program(0), m_lastError(nullptr) 
-		{
+		ShaderProgram() : m_program(0), m_lastError(nullptr) {
 			m_shaders[0] = m_shaders[1] = m_shaders[2] = m_shaders[3] = m_shaders[4] = 0;
 		}
 		~ShaderProgram();
@@ -118,6 +114,7 @@ namespace aie
 
 		std::shared_ptr<Shader> m_shaders[eShaderStage::SHADER_STAGE_Count];
 
-		char*			m_lastError;
+		char* m_lastError;
 	};
+
 }

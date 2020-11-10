@@ -16,7 +16,7 @@ class Camera : public Actor
 		float getPitch();
 		void setPitch(float degrees);
 
-		bool update(double deltatime) override;
+		bool update(double deltaTime) override;
 
 	private:
 		Game* m_instance;
@@ -24,12 +24,11 @@ class Camera : public Actor
 		float m_yaw = 0.0f; //theta
 		float m_pitch = 0.0f; //phi
 
-		float m_moveSpeed = 5.0f;
-		float m_turnSpeed = 0.2f;
+		float m_moveSpeed = 10.0f;
+		float m_turnSpeed = 0.04f;
 
 		double m_currentMouseX = 0.0;
 		double m_currentMouseY = 0.0;
 		double m_previousMouseX = 0.0;
 		double m_previousMouseY = 0.0;
 };
-

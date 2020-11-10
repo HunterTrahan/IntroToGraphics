@@ -33,7 +33,6 @@ bool Bone::draw()
 {
 	//Build a transform matrix
 	glm::mat4 transform = getTransform();
-
 	//Draw the bone
 	aie::Gizmos::addAABBFilled(glm::vec3(0.0f), glm::vec3(0.5f), glm::vec4(0.9f, 0.9f, 0.8f, 0.25f), &transform);
 

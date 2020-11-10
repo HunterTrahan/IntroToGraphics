@@ -1,8 +1,7 @@
 #pragma once
 #include "Actor.h"
-#include <glm/glm.hpp>
 
-class Ball : public Actor	
+class Ball : public Actor
 {
 	public:
 		Ball();
@@ -15,4 +14,3 @@ class Ball : public Actor
 		glm::vec4 m_color;
 		float m_radius;
 };
-
