@@ -9,9 +9,6 @@
 #include "Shader.h"
 #include "Mesh.h"
 #include "Light.h"
-#include "Ball.h"
-#include "Bone.h"
-#include "Skeleton.h"
 #include "Earth.h"
 
 class Camera;
@@ -51,11 +48,6 @@ class Game
 
 		Mesh				m_mesh;
 		aie::Texture		m_texture;
-
-		Bone* m_hipBone;
-		Bone* m_kneeBone;
-		Bone* m_ankleBone;
-		Skeleton* m_skeleton;
 
 	private:
 		int m_width, m_height;

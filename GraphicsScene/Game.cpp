@@ -144,29 +144,6 @@ bool Game::start()
 		0, 0, 0, 1
 	};
 
-	//Create bones
-	m_hipBone = new Bone(
-		{ { 0.0f, 5.0f, 0.0f }, glm::vec3(1.0f, 0.0f, 0.0f) },
-		{ { 0.0f, 5.0f, 0.0f }, glm::vec3(-1.0f, 0.0f, 0.0f) }
-	);
-	m_kneeBone = new Bone(
-		{ { 0.0f, -2.5f, 0.0f }, glm::vec3(1.0f, 0.0f, 0.0f) },
-		{ { 0.0f, -2.5f, 0.0f }, glm::vec3(0.0f, 0.0f, 0.0f) }
-	);
-	m_ankleBone = new Bone(
-		{ { 0.0f, -2.5f, 0.0f }, glm::vec3(-1.0f, 0.0f, 0.0f) },
-		{ { 0.0f, -2.5f, 0.0f }, glm::vec3(0.0f, 0.0f, 0.0f) }
-	);
-	m_kneeBone->setParent(m_hipBone);
-	m_ankleBone->setParent(m_kneeBone);
-
-	//Create a skeleton
-	m_skeleton = new Skeleton();
-	//Add the bone to the skeleton
-	m_skeleton->addBone(m_hipBone);
-	m_skeleton->addBone(m_kneeBone);
-	m_skeleton->addBone(m_ankleBone);
-
 	m_light.setAmbient({ 0.5f, 0.5f, 0.5f });
 	m_light.setDiffuse({ 1.0f, 1.0f, 1.0f });
 	m_light.setSpecular({ 1.0f, 1.0f, 1.0f });
@@ -193,8 +170,6 @@ bool Game::update(double deltaTime)
 		-1,
 		glm::sin(time * 2))
 	));
-
-	//m_skeleton->update(deltaTime);
 
 	return true;
 }
@@ -247,7 +222,7 @@ bool Game::draw()
 	mat4 pvm = projectionMatrix * viewMatrix * m_earth->getTransform();
 	m_shader.bindUniform("ProjectionViewModel", pvm);
 
-	//lights?
+	//lights
 	m_shader.bindUniform("NormalMatrix",
 	glm::inverseTranspose(glm::mat3(m_earth->getTransform())));
 	m_shader.bindUniform("ModelMatrix", m_earth->getTransform());
@@ -258,14 +233,7 @@ bool Game::draw()
 	pvm = projectionMatrix * viewMatrix * m_meshTransform;
 	m_shader.bindUniform("ProjectionViewModel", pvm);
 	m_shader.bindUniform("diffuseTexture", 0);
-
-	//m_objMesh.getMaterial(0).diffuseTexture = m_texture;
-
-	//m_texture.bind(0);
-
 	m_objMesh.draw();
-
-	//m_skeleton->draw();
 
 	aie::Gizmos::draw(projectionMatrix * viewMatrix);
 
@@ -276,11 +244,6 @@ bool Game::draw()
 
 bool Game::end()
 {
-	delete m_hipBone;
-	delete m_kneeBone;
-	delete m_ankleBone;
-	delete m_skeleton;
-
 	//Destroy the Gizmos
 	aie::Gizmos::destroy();
 
