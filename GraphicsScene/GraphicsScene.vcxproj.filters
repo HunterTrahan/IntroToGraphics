@@ -51,6 +51,9 @@
     <ClCompile Include="Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Buddha.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -89,6 +92,9 @@
     <ClInclude Include="Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Buddha.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="simple.vert">
@@ -107,6 +113,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="phong.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\..\Downloads\stanford\Buddha.mtl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -138,12 +147,18 @@
     <Image Include="soulspear_specular.tga">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Jade.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Object Include="..\..\..\..\..\Downloads\stanford\Lucy.obj">
       <Filter>Resource Files</Filter>
     </Object>
     <Object Include="soulspear.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
+    <Object Include="..\..\..\..\..\Downloads\stanford\Buddha.obj">
       <Filter>Resource Files</Filter>
     </Object>
   </ItemGroup>

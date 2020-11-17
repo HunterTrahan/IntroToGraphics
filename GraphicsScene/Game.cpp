@@ -32,7 +32,8 @@ int Game::run()
 	if (!start())
 		return -1;
 
-	while (updating && drawing) {
+	while (updating && drawing) 
+	{
 		//Get the current time
 		double timeOfCurrentUpdate = glfwGetTime();
 		//Find the change in time
@@ -57,7 +58,8 @@ bool Game::start()
 	using glm::mat4;
 
 	//Initialize GLFW
-	if (!glfwInit()) {
+	if (!glfwInit()) 
+	{
 		return false;
 	}
 
@@ -65,7 +67,8 @@ bool Game::start()
 	m_window = glfwCreateWindow(m_width, m_height, m_title, nullptr, nullptr);
 
 	//Ensure the window was created
-	if (!m_window) {
+	if (!m_window) 
+	{
 		glfwTerminate();
 		return false;
 	}
@@ -74,7 +77,8 @@ bool Game::start()
 	glfwMakeContextCurrent(m_window);
 
 	//Load OpenGL functions
-	if (ogl_LoadFunctions() == ogl_LOAD_FAILED) {
+	if (ogl_LoadFunctions() == ogl_LOAD_FAILED) 
+	{
 		glfwDestroyWindow(m_window);
 		glfwTerminate();
 		return false;
@@ -99,7 +103,9 @@ bool Game::start()
 		aie::eShaderStage::FRAGMENT,
 		"phong.frag"
 	);
-	if (!m_shader.link()) {
+
+	if (!m_shader.link()) 
+	{
 		printf(
 			"Shader Error: %s\n",
 			m_shader.getLastError()
@@ -108,7 +114,8 @@ bool Game::start()
 	}
 
 	//Load obj mesh
-	if (!m_objMesh.load("Lucy.obj")) {
+	if (!m_objMesh.load("Buddha.obj")) 
+	{
 		printf("Failed to load OBJmesh.\n");
 		return false;
 	}
@@ -172,7 +179,8 @@ bool Game::update(double deltaTime)
 	glfwPollEvents();
 
 	//Keep the window open until the user closes it
-	if (glfwWindowShouldClose(m_window) || glfwGetKey(m_window, GLFW_KEY_ESCAPE)) {
+	if (glfwWindowShouldClose(m_window) || glfwGetKey(m_window, GLFW_KEY_ESCAPE)) 
+	{
 		return false;
 	}
 
@@ -207,7 +215,8 @@ bool Game::draw()
 	vec4 white(1, 1, 1, 1);
 	vec4 grey(0.5f, 0.5f, 0.5f, 1);
 
-	for (int i = 0; i < 21; ++i) {
+	for (int i = 0; i < 21; ++i) 
+	{
 		aie::Gizmos::addLine(
 			vec3(-10 + i, 0, 10),
 			vec3(-10 + i, 0, -10),
