@@ -118,6 +118,12 @@
     <None Include="..\..\..\..\..\Downloads\stanford\Buddha.mtl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="custom.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="custom.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="earth_normal.jpg">

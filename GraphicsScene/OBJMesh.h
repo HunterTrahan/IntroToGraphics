@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <glm/vec2.hpp>
@@ -11,7 +10,8 @@
 namespace aie {
 
 	// a simple triangle mesh wrapper
-	class OBJMesh {
+	class OBJMesh 
+	{
 	public:
 
 		// a vertex structure for obj files

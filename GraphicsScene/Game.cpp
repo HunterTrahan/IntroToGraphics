@@ -1,4 +1,3 @@
-
 #include "Game.h"
 #include "Camera.h"
 #include <cstdio>
@@ -95,13 +94,14 @@ bool Game::start()
 	glEnable(GL_DEPTH_TEST);
 
 	//Initialize shader
+
 	m_shader.loadShader(
 		aie::eShaderStage::VERTEX,
-		"phong.vert"
+		"custom.vert"
 	);
 	m_shader.loadShader(
 		aie::eShaderStage::FRAGMENT,
-		"phong.frag"
+		"custom.frag"
 	);
 
 	if (!m_shader.link()) 
@@ -114,7 +114,7 @@ bool Game::start()
 	}
 
 	//Load obj mesh
-	if (!m_objMesh.load("Buddha.obj")) 
+	if (!m_objMesh.load("soulspear.obj")) 
 	{
 		printf("Failed to load OBJmesh.\n");
 		return false;
@@ -246,16 +246,23 @@ bool Game::draw()
 	//Bind and draw Earth
 	mat4 pvm = projectionMatrix * viewMatrix * m_earth->getTransform();
 	m_shader.bindUniform("ProjectionViewModel", pvm);
+
+	//lights?
 	m_shader.bindUniform("NormalMatrix",
-		glm::inverseTranspose(glm::mat3(m_earth->getTransform())));
+	glm::inverseTranspose(glm::mat3(m_earth->getTransform())));
 	m_shader.bindUniform("ModelMatrix", m_earth->getTransform());
-	//m_shader.bindUniform("diffuseTexture", 0);
+	m_shader.bindUniform("diffuseTexture", 0);
 	m_earth->draw();
 
 	//Draw obj mesh
 	pvm = projectionMatrix * viewMatrix * m_meshTransform;
 	m_shader.bindUniform("ProjectionViewModel", pvm);
-	//m_shader.bindUniform("diffuseTexture", 0);
+	m_shader.bindUniform("diffuseTexture", 0);
+
+	//m_objMesh.getMaterial(0).diffuseTexture = m_texture;
+
+	//m_texture.bind(0);
+
 	m_objMesh.draw();
 
 	//m_skeleton->draw();

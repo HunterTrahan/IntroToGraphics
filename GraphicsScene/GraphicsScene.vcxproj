@@ -198,6 +198,8 @@
     <None Include="..\..\..\..\..\Downloads\stanford\Lucy.mtl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="custom.frag" />
+    <None Include="custom.vert" />
     <None Include="phong.frag" />
     <None Include="phong.vert" />
     <None Include="simple.frag" />
@@ -225,7 +227,9 @@
     <Image Include="earth_specular.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="Jade.jpg" />
+    <Image Include="Jade.jpg">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Image>
     <Image Include="soulspear_diffuse.tga">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>

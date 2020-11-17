@@ -1,5 +1,4 @@
-  
-// A simple color shader
+ // A simple color shader
 #version 410
 
 in vec4 vColor;

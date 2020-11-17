@@ -1,4 +1,4 @@
-//Classic Phong fragment shader
+//custom shader
 #version 410
 
 in vec4 vPosition;
@@ -16,11 +16,15 @@ uniform vec3 Id;
 uniform vec3 Is;
 uniform vec3 LightDirection;
 
+uniform sampler2D diffuseTexture;
+
 uniform vec3 CameraPosition;
 
 out vec4 FragColor;
+vec4 LightColor;
+vec4 TextureColor;
 
-void main()
+void lights()
 {
 	//Ensure normal and light direction are normalized
 	vec3 N = normalize(vNormal);
@@ -40,5 +44,18 @@ void main()
 	vec3 ambient = (Ka + vColor.rgb) * Ia;
 	vec3 diffuse = (Kd + vColor.rgb) * Id * lambertTerm;
 	vec3 specular = (Ks + vColor.rgb) * Is * specularTerm;
-	FragColor = vec4(ambient + diffuse + specular, 1);
+	LightColor = vec4(ambient + diffuse + specular, 1);
+}
+
+void textures()
+{
+	TextureColor = texture(diffuseTexture, vTexCoord) + vColor;
+}
+
+void main()
+{
+	lights();
+	textures();
+
+	FragColor = TextureColor + LightColor;
 }
