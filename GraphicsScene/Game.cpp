@@ -167,7 +167,7 @@ bool Game::update(double deltaTime)
 	float time = glfwGetTime();
 	m_light.setDirection(glm::normalize(glm::vec3(
 		glm::cos(time * 2),
-		-1,
+		0,
 		glm::sin(time * 2))
 	));
 
