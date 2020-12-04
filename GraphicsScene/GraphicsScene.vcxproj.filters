@@ -73,16 +73,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="soulspear.mtl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\..\..\..\Downloads\stanford\Buddha.mtl">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="custom.vert">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="custom.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="soulspear.mtl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -117,9 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <Object Include="soulspear.obj">
-      <Filter>Resource Files</Filter>
-    </Object>
-    <Object Include="..\..\..\..\..\Downloads\stanford\Buddha.obj">
       <Filter>Resource Files</Filter>
     </Object>
   </ItemGroup>

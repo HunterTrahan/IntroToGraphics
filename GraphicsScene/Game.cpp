@@ -97,11 +97,11 @@ bool Game::start()
 
 	m_shader.loadShader(
 		aie::eShaderStage::VERTEX,
-		"custom.vert"
+		"Resources/custom.vert"
 	);
 	m_shader.loadShader(
 		aie::eShaderStage::FRAGMENT,
-		"custom.frag"
+		"Resources/custom.frag"
 	);
 
 	if (!m_shader.link()) 
@@ -114,7 +114,7 @@ bool Game::start()
 	}
 
 	//Load obj mesh
-	if (!m_objMesh.load("soulspear.obj")) 
+	if (!m_objMesh.load("Resources/soulspear.obj")) 
 	{
 		printf("Failed to load OBJmesh.\n");
 		return false;
