@@ -1,3 +1,9 @@
+# Documentation
+https://huntertrahan.github.io/IntroToGraphics/.
+
+
+
+
 # aieBootstrap
 
 *NOTE: This project is no longer being actively maintained*
